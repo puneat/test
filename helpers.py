@@ -1029,36 +1029,36 @@ class Metrics():
 
             ################################################
 
-    def plot_monthly_performance(self, path=None, save_plot=False):
-            fig = px.bar( y=self.monthly_performance[self.metric_category], x=self.monthly_performance.index, title='Monthly Performance',   width=1750, height=700)
+    def plot_monthly_performance(self, calc_type='--Overall', path=None, save_plot=False):
+            fig = px.bar( y=self.monthly_performance[self.metric_category+calc_type], x=self.monthly_performance.index, title='Monthly Performance',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
             fig.show()
         
     def plot_yearly_performance(self, path=None, save_plot=False):
-            fig = px.bar( y=self.yearly_performance[self.metric_category], x=self.yearly_performance.index, title='Yearly Performance',   width=1750, height=700)
+            fig = px.bar( y=self.yearly_performance[self.metric_category+calc_type], x=self.yearly_performance.index, title='Yearly Performance',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
             fig.show()
         
     def plot_hourly_entry_performance(self, path=None, save_plot=False):
-            fig = px.bar( y=self.hourly_entry_performance[self.metric_category], x=self.hourly_entry_performance.index, title='Hourly Entry Performance',   width=1750, height=700)
+            fig = px.bar( y=self.hourly_entry_performance[self.metric_category+calc_type], x=self.hourly_entry_performance.index, title='Hourly Entry Performance',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
             fig.show()
         
     def plot_hourly_exit_performance(self, path=None, save_plot=False):
-            fig = px.bar( y=self.hourly_exit_performance[self.metric_category], x=self.hourly_exit_performance.index, title='Hourly Exit Performance',   width=1750, height=700)
+            fig = px.bar( y=self.hourly_exit_performance[self.metric_category+calc_type], x=self.hourly_exit_performance.index, title='Hourly Exit Performance',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
             fig.show()
         
     def plot_weekly_performance(self, path=None, save_plot=False):
-            fig = px.bar(y=self.weekly_performance[self.metric_category], x=self.weekly_performance.index, title='Weekly Performance',   width=1750, height=700)
+            fig = px.bar(y=self.weekly_performance[self.metric_category+calc_type], x=self.weekly_performance.index, title='Weekly Performance',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
