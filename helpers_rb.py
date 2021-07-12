@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import warnings
 from numpy import cumsum, log, polyfit, sqrt, std, subtract
-%matplotlib inline
 from datetime import datetime, timedelta
 import scipy.stats as st
 import statsmodels.api as sm
