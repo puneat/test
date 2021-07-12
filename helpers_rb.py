@@ -1,3 +1,31 @@
+import pandas as pd
+import numpy as np
+import warnings
+from numpy import cumsum, log, polyfit, sqrt, std, subtract
+%matplotlib inline
+from datetime import datetime, timedelta
+import scipy.stats as st
+import statsmodels.api as sm
+import math
+import matplotlib
+import matplotlib.pyplot as plt
+from tqdm import tqdm
+from scipy.stats import norm
+from scipy import poly1d
+warnings.simplefilter(action='ignore',  category=Warning)
+import plotly.express as px
+import plotly.graph_objects as go
+import scipy.stats as stats
+from pandas.tseries.offsets import BDay
+from plotly.subplots import make_subplots
+matplotlib.rcParams['figure.figsize'] = (25.0, 15.0)
+matplotlib.style.use('ggplot')
+pd.set_option('display.float_format', lambda x: '%.4f' % x)
+import plotly.io as pio
+from numpy import median, mean
+
+pio.templates.default = "plotly_white"
+
 def clean_contract_data(train, year, month, month_in_number, offset):
 
     front_month_list = [1,2,3,4,5,6,7,8,9,10,11,12,
