@@ -208,7 +208,7 @@ class Broker():
                     else:
                         self.lot_size = tmp_short_lots
                         
-                    self.target_price = self.ask_data['Slope'][i]
+                    self.target_price = tmp_short_target
                     self.stop_price = tmp_short_stop
                     
                 elif enterLongSignal == True:
@@ -236,7 +236,7 @@ class Broker():
                     else:
                         self.lot_size = tmp_long_lots
                         
-                    self.target_price = self.ask_data['Slope'][i]
+                    self.target_price = tmp_long_target
                     self.stop_price = tmp_long_stop 
 
         
