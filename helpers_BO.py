@@ -121,6 +121,12 @@ def clean_backtest_data(train, tradeLog, year, month, offset):
 
     front_month = Month_dict[month]['Front'][offset]+1
 
+    if back_month==13:
+        back_month = 1
+    if front_month==13:
+        front_month = 1
+
+
     if back_month <= 9:
         back_separator = '-0'
     elif back_month >= 10:
