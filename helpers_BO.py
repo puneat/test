@@ -131,7 +131,7 @@ def clean_contract_data(train, year, month, offset):
     return train
 
 
-def clean_backtest_data(train, tradeLog, year, month, month_in_number, offset):
+def clean_backtest_data(train, tradeLog, year, month, offset):
     front_month_list = [1,3,5,7,8,9,10,12,
                     1,3,5,7,8,9,10,12,
                     1,3,5,7,8,9,10,12]
