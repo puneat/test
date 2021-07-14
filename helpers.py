@@ -1036,42 +1036,42 @@ class Metrics():
                 fig.write_html(path)
             fig.show()
         
-    def plot_yearly_performance(self, path=None, save_plot=False):
+    def plot_yearly_performance(self, calc_type='--Overall', path=None, save_plot=False):
             fig = px.bar( y=self.yearly_performance[self.metric_category+calc_type], x=self.yearly_performance.index, title='Yearly Performance',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
             fig.show()
         
-    def plot_hourly_entry_performance(self, path=None, save_plot=False):
+    def plot_hourly_entry_performance(self, calc_type='--Overall', path=None, save_plot=False):
             fig = px.bar( y=self.hourly_entry_performance[self.metric_category+calc_type], x=self.hourly_entry_performance.index, title='Hourly Entry Performance',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
             fig.show()
         
-    def plot_hourly_exit_performance(self, path=None, save_plot=False):
+    def plot_hourly_exit_performance(self, calc_type='--Overall', path=None, save_plot=False):
             fig = px.bar( y=self.hourly_exit_performance[self.metric_category+calc_type], x=self.hourly_exit_performance.index, title='Hourly Exit Performance',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
             fig.show()
         
-    def plot_weekly_performance(self, path=None, save_plot=False):
+    def plot_weekly_performance(self, calc_type='--Overall', path=None, save_plot=False):
             fig = px.bar(y=self.weekly_performance[self.metric_category+calc_type], x=self.weekly_performance.index, title='Weekly Performance',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
             fig.show()
         
-    def plot_cumulative_returns(self, path=None, save_plot=False):
+    def plot_cumulative_returns(self, calc_type='--Overall', path=None, save_plot=False):
             fig = px.line( y= self.trade_logs['PNL'].cumsum(), x=self.trade_logs['Entry Time'], title='Cumulative Returns',   width=1750, height=700)
             if save_plot:
                 assert path is not None
                 fig.write_html(path)
             fig.show()
         
-    def plot_daily_pnl(self, path=None, save_plot=False):
+    def plot_daily_pnl(self, calc_type='--Overall', path=None, save_plot=False):
             df = pd.DataFrame(data = self.trade_logs[['PNL','Entry Time']])
             df["Color"] = np.where(df["PNL"]<0, 'red', 'green')    
             fig = go.Figure()
