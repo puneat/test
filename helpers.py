@@ -43,7 +43,7 @@ class Broker():
                  pass_history = 1,
                  bid_data = None,
                  ask_data = None,
-                 classifier = None
+                 classifier = None,
                  classifier_type = 'keras'):
         
         self.instrument = instrument
