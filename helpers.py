@@ -26,6 +26,7 @@ from numpy import median, mean
 pio.templates.default = "plotly_white"
 
 
+from functools import reduce
 class Broker():
     def __init__(self,
                  instrument=None,
@@ -41,7 +42,9 @@ class Broker():
                  transaction_cost = 1,
                  pass_history = 1,
                  bid_data = None,
-                 ask_data = None):
+                 ask_data = None,
+                 classifier = None
+                 classifier_type = 'keras'):
         
         self.instrument = instrument
         self.bid_data = bid_data
@@ -55,6 +58,8 @@ class Broker():
         self.overnight = overnight
         self.transaction_cost = transaction_cost
         self.pass_history = pass_history
+        self.classifier = classifier
+        self.classifier_type = classifier_type
         
         self.entry_price = None
         self.exit_price = None
@@ -167,6 +172,67 @@ class Broker():
         def takeEntry():
             current_month = self.bid_data.index[i].month
             current_day_of_month = self.bid_data.index[i].day
+
+            if self.classifier_type=='keras':
+                if len(self.tradeLog) > 5:
+
+                    secondary_df = self.tradeLog
+                    temp_tradelog = pd.DataFrame()
+
+                    temp_tradelog['PNL'] = secondary_df['PNL']
+                    temp_tradelog['Trade Type'] = secondary_df['Trade Type']
+                    temp_tradelog['Month'] = pd.to_datetime(secondary_df['Entry Time']).dt.month
+                    temp_tradelog['Entry Hour'] = pd.to_datetime(secondary_df['Entry Time']).dt.hour
+                    temp_tradelog['Entry Day'] = pd.to_datetime(secondary_df['Entry Time']).dt.day
+                    temp_tradelog['Exit Hour'] = pd.to_datetime(secondary_df['Exit Time']).dt.hour
+                    temp_tradelog['Exit Day'] = pd.to_datetime(secondary_df['Exit Time']).dt.day
+                    temp_tradelog['Target'] = np.where(secondary_df['PNL']>0,1,0)
+
+                    data_frames = [temp_tradelog.shift(1), temp_tradelog.shift(2), temp_tradelog.shift(3), temp_tradelog.shift(4), temp_tradelog.shift(5)]
+
+                    df_merged = reduce(lambda  left,right: pd.merge(left,right,  left_index=True, right_index=True,
+                                            how='outer'), data_frames)
+
+                    df_merged = df_merged.dropna()
+
+                    X_live = np.asarray(df_merged.iloc[-1].values).astype(np.float32)
+
+                    y_pred = self.classifier.predict_classes(X_live.reshape(1, -1))[0][0]
+
+                    self.default_lot_size = y_pred + 1
+
+            elif self.classifier_type == 'sklearn':
+                if len(self.tradeLog) > 5:
+
+                    secondary_df = self.tradeLog
+                    temp_tradelog = pd.DataFrame()
+
+                    temp_tradelog['PNL'] = secondary_df['PNL']
+                    temp_tradelog['Trade Type'] = secondary_df['Trade Type']
+                    temp_tradelog['Month'] = pd.to_datetime(secondary_df['Entry Time']).dt.month
+                    temp_tradelog['Entry Hour'] = pd.to_datetime(secondary_df['Entry Time']).dt.hour
+                    temp_tradelog['Entry Day'] = pd.to_datetime(secondary_df['Entry Time']).dt.day
+                    temp_tradelog['Exit Hour'] = pd.to_datetime(secondary_df['Exit Time']).dt.hour
+                    temp_tradelog['Exit Day'] = pd.to_datetime(secondary_df['Exit Time']).dt.day
+                    temp_tradelog['Target'] = np.where(secondary_df['PNL']>0,1,0)
+
+                    data_frames = [temp_tradelog.shift(1), temp_tradelog.shift(2), temp_tradelog.shift(3), temp_tradelog.shift(4), temp_tradelog.shift(5)]
+
+                    df_merged = reduce(lambda  left,right: pd.merge(left,right,  left_index=True, right_index=True,
+                                            how='outer'), data_frames)
+
+                    df_merged = df_merged.dropna()
+
+                    X_live = df_merged.iloc[-1].values
+
+                    y_pred = self.classifier.predict_classes(X_live.reshape(1, -1))[0]
+
+                    self.default_lot_size = y_pred + 1
+
+            elif self.classifier_type == None: 
+                pass
+
+
             if current_month == 2:
                 current_day_of_month = current_day_of_month + 4
             if current_day_of_month <= self.trading_stop_day and ((self.bid_data.index[i].day == self.bid_data.index[i+1].day)):
