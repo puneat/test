@@ -25,15 +25,19 @@ from numpy import median, mean
 
 pio.templates.default = "plotly_white"
 
-def clean_contract_data(train, year, month, month_in_number, offset):
+def clean_contract_data(train, year, month, month_in_number, offset, back_date=10, back_month=1):
 
     front_month_list = [1,2,3,4,5,6,7,8,9,10,11,12,
                     1,2,3,4,5,6,7,8,9,10,11,12,
                     1,2,3,4,5,6,7,8,9,10,11,12]
-
-    back_month_list = [11,12,1,2,3,4,5,6,7,8,9,10,
+    if back_month==1:
+        back_month_list = [11,12,1,2,3,4,5,6,7,8,9,10,
                    11,12,1,2,3,4,5,6,7,8,9,10,
                    11,12,1,2,3,4,5,6,7,8,9,10]
+    elif back_month==2:
+        back_month_list = [10,11,12,1,2,3,4,5,6,7,8,9,
+                   10,11,12,1,2,3,4,5,6,7,8,9,
+                   10,11,12,1,2,3,4,5,6,7,8,9]
 
     month_in_number = month_in_number + 11
 
@@ -64,51 +68,51 @@ def clean_contract_data(train, year, month, month_in_number, offset):
         front_separator = '-'
 
     if month=='Jan':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[12-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[12-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator + str(front_month_list[12-offset]) + '-0' + str(1)
 
     elif month=='Feb':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[13-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[13-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[13-offset]) + '-0' + str(1)
 
     elif month=='Mar':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[14-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[14-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[14-offset]) + '-0' + str(1)
 
     elif month=='Apr':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[15-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[15-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[15-offset]) + '-0' + str(1)
 
     elif month=='May':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[16-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[16-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[16-offset]) + '-0' + str(1)
 
     elif month=='Jun':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[17-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[17-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[17-offset]) + '-0' + str(1)
 
     elif month=='Jul':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[18-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[18-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[18-offset]) + '-0' + str(1)
 
     elif month=='Aug':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[19-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[19-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[19-offset]) + '-0' + str(1)
 
     elif month=='Sep':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[20-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[20-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[20-offset]) + '-0' + str(1)
 
     elif month=='Oct':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[21-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[21-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[21-offset]) + '-0' + str(1)
 
     elif month=='Nov':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[22-offset]) + '-' + str(10)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[22-offset]) + '-' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[22-offset]) + '-0' + str(1)
 
     elif month=='Dec':
-        start_date = str(year_actual_front) + back_separator +str(back_month_list[23-offset]) + '-' + str(10)
+        start_date = str(year_actual_front) + back_separator +str(back_month_list[23-offset]) + '-' + str(back_date)
         end_date = str(year_actual_back) + front_separator +str(front_month_list[23-offset]) + '-0' + str(1)
 
     # print(start_date, end_date)
@@ -121,14 +125,19 @@ def clean_contract_data(train, year, month, month_in_number, offset):
 
     return train
 
-def clean_backtest_data(train, tradeLog, year, month, month_in_number, offset):
+def clean_backtest_data(train, tradeLog, year, month, month_in_number, offset back_date=1, back_month=1):
     front_month_list = [1,2,3,4,5,6,7,8,9,10,11,12,
                     1,2,3,4,5,6,7,8,9,10,11,12,
                     1,2,3,4,5,6,7,8,9,10,11,12]
-
-    back_month_list = [12,1,2,3,4,5,6,7,8,9,10,11,
+    if back_month==1:
+        back_month_list = [12,1,2,3,4,5,6,7,8,9,10,11,
                        12,1,2,3,4,5,6,7,8,9,10,11,
-                       12,1,2,3,4,5,6,7,8,9,10,11,]
+                       12,1,2,3,4,5,6,7,8,9,10,11]
+        
+    elif back_month==2:
+        back_month_list = [11,12,1,2,3,4,5,6,7,8,9,10,
+                       11,12,1,2,3,4,5,6,7,8,9,10,
+                       11,12,1,2,3,4,5,6,7,8,9,10]
 
     month_in_number = month_in_number + 11
 
@@ -159,51 +168,51 @@ def clean_backtest_data(train, tradeLog, year, month, month_in_number, offset):
         front_separator = '-'
 
     if month=='Jan':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[12-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[12-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator + str(front_month_list[12-offset]) + '-0' + str(1)
 
     elif month=='Feb':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[13-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[13-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[13-offset]) + '-0' + str(1)
 
     elif month=='Mar':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[14-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[14-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[14-offset]) + '-0' + str(1)
 
     elif month=='Apr':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[15-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[15-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[15-offset]) + '-0' + str(1)
 
     elif month=='May':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[16-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[16-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[16-offset]) + '-0' + str(1)
 
     elif month=='Jun':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[17-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[17-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[17-offset]) + '-0' + str(1)
 
     elif month=='Jul':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[18-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[18-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[18-offset]) + '-0' + str(1)
 
     elif month=='Aug':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[19-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[19-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[19-offset]) + '-0' + str(1)
 
     elif month=='Sep':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[20-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[20-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[20-offset]) + '-0' + str(1)
 
     elif month=='Oct':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[21-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[21-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[21-offset]) + '-0' + str(1)
 
     elif month=='Nov':
-        start_date = str(year_actual_back) + back_separator +str(back_month_list[22-offset]) + '-0' + str(1)
+        start_date = str(year_actual_back) + back_separator +str(back_month_list[22-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_front) + front_separator +str(front_month_list[22-offset]) + '-0' + str(1)
 
     elif month=='Dec':
-        start_date = str(year_actual_front) + back_separator +str(back_month_list[23-offset]) + '-0' + str(1)
+        start_date = str(year_actual_front) + back_separator +str(back_month_list[23-offset]) + '-0' + str(back_date)
         end_date = str(year_actual_back) + front_separator +str(front_month_list[23-offset]) + '-0' + str(1)
 
     # print(start_date, end_date)
