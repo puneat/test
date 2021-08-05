@@ -29,20 +29,6 @@ def prepare_portfolio(strategy_names_list, tradelog_path_list, lots_distribution
         
             combined = pd.concat(combined_list,axis=0)
         
-            if combine_type=='year-month':
-                combined = combined.groupby([combined['Exit Time'].dt.year, combined['Exit Time'].dt.month]).sum()
-        
-            elif combine_type=='month':
-                combined = combined.groupby([combined['Exit Time'].dt.month]).sum()
-            
-            elif combine_type=='year':
-                combined = combined.groupby([combined['Exit Time'].dt.year]).sum()
-            
-            elif combine_type=='day':
-                combined = combined.groupby([combined['Exit Time'].dt.date]).sum()
-            
-            elif combine_type=='trade':
-                combined  = combined
         
         elif portfolio_type == 'alone':
             
@@ -52,5 +38,21 @@ def prepare_portfolio(strategy_names_list, tradelog_path_list, lots_distribution
                                             how='outer'),combined_list).fillna(0)
     if portfolio_type == 'alone':
         combined.columns = strategy_names_list
+        
+    elif portfolio_type == 'mix':
+        if combine_type=='year-month':
+            combined = combined.groupby([combined['Exit Time'].dt.year, combined['Exit Time'].dt.month]).sum()
+        
+        elif combine_type=='month':
+            combined = combined.groupby([combined['Exit Time'].dt.month]).sum()
+            
+        elif combine_type=='year':
+            combined = combined.groupby([combined['Exit Time'].dt.year]).sum()
+            
+        elif combine_type=='day':
+            combined = combined.groupby([combined['Exit Time'].dt.date]).sum()
+            
+        elif combine_type=='trade':
+            combined  = combined
             
     return combined
