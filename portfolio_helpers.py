@@ -9,7 +9,7 @@ from numpy import median, mean
 from functools import reduce
 
 
-def prepare_portfolio(strategy_names_list, tradelog_path_list, lots_distribution_list, combine_type='day', portfolio_type = 'alone'):
+def prepare_portfolio(strategy_names_list, tradelog_path_list, lots_distribution_list, combine_type='day', portfolio_type = 'alone', index_type=None):
     
     combined = pd.DataFrame()
     
@@ -20,6 +20,8 @@ def prepare_portfolio(strategy_names_list, tradelog_path_list, lots_distribution
         strategy['Holding Time'] = strategy['Exit Time'] - strategy['Entry Time']
         strategy['PNL'] = strategy['PNL']*lots_distribution_list[i]
         strategy['Lots'] = strategy['Lots']*lots_distribution_list[i]
+        if index_type is not None:
+            strategy = strategy.set_index(strategy[index_type])
         
         if portfolio_type == 'mix':
             
