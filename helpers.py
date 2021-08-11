@@ -172,9 +172,21 @@ class Broker():
         
         self.tradeLog.loc[self.trade_id, 'Transaction Cost'] = self.transaction_cost * self.lot_size
         
-        self.tradeLog.loc[self.trade_id, 'MFE'] = abs(self.max_favor_excursion / self.min_tick_increment)
+        if self.max_favor_excursion is not None:
         
-        self.tradeLog.loc[self.trade_id, 'MAE'] = abs(self.max_adverse_excursion / self.min_tick_increment)
+            self.tradeLog.loc[self.trade_id, 'MFE'] = abs(self.max_favor_excursion / self.min_tick_increment)
+        
+        elif self.max_favor_excursion is None:
+            
+            self.tradeLog.loc[self.trade_id, 'MFE'] = 0
+            
+        if self.max_adverse_excursion is not None:
+            
+            self.tradeLog.loc[self.trade_id, 'MAE'] = abs(self.max_adverse_excursion / self.min_tick_increment)
+            
+        elif self.max_adverse_excursion is None:
+            
+            self.tradeLog.loc[self.trade_id, 'MAE'] = 0
         
  
     def testerAlgo(self):
