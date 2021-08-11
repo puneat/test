@@ -323,14 +323,14 @@ class Broker():
                 if self.position == -1:
                     
                     if self.max_adverse_excursion is None:
-                        self.max_adverse_excursion = self.bid_data['High'][i]
+                        self.max_adverse_excursion = abs(self.bid_data['High'][i] - self.entry_price)
                     elif self.max_adverse_excursion is not None:
-                        self.max_adverse_excursion = max(self.bid_data['High'][i],self.max_adverse_excursion)
+                        self.max_adverse_excursion = max(abs(self.bid_data['High'][i] - self.entry_price), self.max_adverse_excursion)
                         
                     if self.max_favor_excursion is None:
-                        self.max_favor_excursion = self.bid_data['Low'][i]
+                        self.max_favor_excursion = abs(self.entry_price - self.bid_data['Low'][i])
                     elif self.max_adverse_excursion is not None:
-                        self.max_favor_excursion = min(self.bid_data['Low'][i],self.max_favor_excursion)
+                        self.max_favor_excursion = max(abs(self.entry_price - self.bid_data['Low'][i]), self.max_favor_excursion)
                     
                     if self.pass_history =='all':
                         exitShortSignal, tmp_short_exit_price,tmp_short_exit_type, tmp_short_TSL, tmp_short_TSL_time, self.stop_price, self.target_price =  self.strategy_obj.shortExit(self.ask_data.iloc[:i+1], self.bid_data.iloc[:i+1],
@@ -384,14 +384,14 @@ class Broker():
                 if self.position == 1:
                     
                     if self.max_adverse_excursion is None:
-                        self.max_adverse_excursion = self.bid_data['Low'][i]
+                        self.max_adverse_excursion = abs(self.entry_price - self.bid_data['Low'][i])
                     elif self.max_adverse_excursion is not None:
-                        self.max_adverse_excursion = min(self.bid_data['Low'][i],self.max_adverse_excursion)
+                        self.max_adverse_excursion = max(abs(self.entry_price - self.bid_data['Low'][i]),self.max_adverse_excursion)
                         
                     if self.max_favor_excursion is None:
-                        self.max_favor_excursion = self.bid_data['High'][i]
+                        self.max_favor_excursion = abs(self.bid_data['High'][i] - self.entry_price)
                     elif self.max_adverse_excursion is not None:
-                        self.max_favor_excursion = max(self.bid_data['High'][i],self.max_favor_excursion)
+                        self.max_favor_excursion = max(abs(self.bid_data['High'][i] - self.entry_price), self.max_favor_excursion)
                     
                     if self.pass_history =='all':
                         exitLongSignal, tmp_long_exit_price, tmp_long_exit_type, tmp_long_TSL, tmp_long_TSL_time, self.stop_price, self.target_price =  self.strategy_obj.longExit(self.ask_data.iloc[:i+1], self.bid_data.iloc[:i+1],
@@ -486,9 +486,6 @@ class Broker():
                         
                     self.tradeExit()
                     
-                    self.max_adverse_excursion = None
-                    self.max_favor_excursion = None   
-                    
                 if self.overnight == False:
                     
                     if (self.bid_data.index[i].day != self.bid_data.index[i+1].day) or (self.bid_data.index[i].month != self.bid_data.index[i+1].month):
@@ -526,9 +523,6 @@ class Broker():
                         self.position = 0
                         
                         self.tradeExit()
-                        
-                        self.max_adverse_excursion = None
-                        self.max_favor_excursion = None   
 
             elif self.position == 0:
                 takeEntry()
