@@ -347,8 +347,6 @@ class Broker():
                                                                                                                 self.lot_size)
                     if exitShortSignal == True:
                         self.position = 0
-                        self.max_adverse_excursion = None
-                        self.max_favor_excursion = None
                         
                         
                         self.exit_price = round(tmp_short_exit_price + (self.min_tick_increment*self.exit_slippage_ticks),4)
@@ -379,6 +377,8 @@ class Broker():
                         self.TSL_time_logs = tmp_short_TSL_time
                         
                         self.tradeExit()
+                        self.max_adverse_excursion = None
+                        self.max_favor_excursion = None
                         takeEntry()
                         
                 if self.position == 1:
@@ -409,8 +409,6 @@ class Broker():
                         
                     if exitLongSignal == True:
                         self.position = 0
-                        self.max_adverse_excursion = None
-                        self.max_favor_excursion = None
                         
                         self.exit_price = round(tmp_long_exit_price - (self.min_tick_increment*self.exit_slippage_ticks),4)
                         if tmp_long_exit_type in ['Target', 'Stop', 'Extra']:
@@ -441,6 +439,8 @@ class Broker():
                         self.TSL_time_logs = tmp_long_TSL_time
                         
                         self.tradeExit()
+                        self.max_adverse_excursion = None
+                        self.max_favor_excursion = None
                         takeEntry()
                         
                 
@@ -486,6 +486,9 @@ class Broker():
                         
                     self.tradeExit()
                     
+                    self.max_adverse_excursion = None
+                    self.max_favor_excursion = None   
+                    
                 if self.overnight == False:
                     
                     if (self.bid_data.index[i].day != self.bid_data.index[i+1].day) or (self.bid_data.index[i].month != self.bid_data.index[i+1].month):
@@ -523,6 +526,9 @@ class Broker():
                         self.position = 0
                         
                         self.tradeExit()
+                        
+                        self.max_adverse_excursion = None
+                        self.max_favor_excursion = None   
 
             elif self.position == 0:
                 takeEntry()
