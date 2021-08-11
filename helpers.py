@@ -104,6 +104,10 @@ class Broker():
         self.entry_time = None
         self.exit_time = None
         self.exit_type = None
+        
+        self.max_adverse_excursion = None
+        
+        self.max_favor_excursion = None
 
         self.tradeLog = pd.DataFrame(columns=['Trade ID',
                                               'Trade Type',
@@ -115,6 +119,8 @@ class Broker():
                                               'Target Price',
                                               'TSL',
                                               'TSL time',
+                                              'MFE',
+                                              'MAE',
                                               'Stop Price',
                                               'Exit Bid Params',
                                               'Exit Ask Params',
@@ -165,6 +171,10 @@ class Broker():
         self.tradeLog.loc[self.trade_id, 'Exit Type'] = self.exit_type
         
         self.tradeLog.loc[self.trade_id, 'Transaction Cost'] = self.transaction_cost * self.lot_size
+        
+        self.tradeLog.loc[self.trade_id, 'MFE'] = self.max_favor_excursion
+        
+        self.tradeLog.loc[self.trade_id, 'MAE'] = self.max_adverse_excursion
         
  
     def testerAlgo(self):
@@ -311,6 +321,17 @@ class Broker():
             if self.position in [1, -1]:
                 
                 if self.position == -1:
+                    
+                    if self.max_adverse_excursion is None:
+                        self.max_adverse_excursion = self.bid_data['High'][i]
+                    elif self.max_adverse_excursion is not None:
+                        self.max_adverse_excursion = max(self.bid_data['High'][i],self.max_adverse_excursion)
+                        
+                    if self.max_favor_excursion is None:
+                        self.max_favor_excursion = self.bid_data['Low'][i]
+                    elif self.max_adverse_excursion is not None:
+                        self.max_favor_excursion = max(self.bid_data['Low'][i],self.max_favor_excursion)
+                    
                     if self.pass_history =='all':
                         exitShortSignal, tmp_short_exit_price,tmp_short_exit_type, tmp_short_TSL, tmp_short_TSL_time, self.stop_price, self.target_price =  self.strategy_obj.shortExit(self.ask_data.iloc[:i+1], self.bid_data.iloc[:i+1],
                                                                                                                 self.stop_price, 
@@ -357,6 +378,17 @@ class Broker():
                         takeEntry()
                         
                 if self.position == 1:
+                    
+                    if self.max_adverse_excursion is None:
+                        self.max_adverse_excursion = self.bid_data['Low'][i]
+                    elif self.max_adverse_excursion is not None:
+                        self.max_adverse_excursion = max(self.bid_data['Low'][i],self.max_adverse_excursion)
+                        
+                    if self.max_favor_excursion is None:
+                        self.max_favor_excursion = self.bid_data['High'][i]
+                    elif self.max_adverse_excursion is not None:
+                        self.max_favor_excursion = max(self.bid_data['High'][i],self.max_favor_excursion)
+                    
                     if self.pass_history =='all':
                         exitLongSignal, tmp_long_exit_price, tmp_long_exit_type, tmp_long_TSL, tmp_long_TSL_time, self.stop_price, self.target_price =  self.strategy_obj.longExit(self.ask_data.iloc[:i+1], self.bid_data.iloc[:i+1],
                                                                                                               self.stop_price, 
