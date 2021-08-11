@@ -347,6 +347,10 @@ class Broker():
                                                                                                                 self.lot_size)
                     if exitShortSignal == True:
                         self.position = 0
+                        self.max_adverse_excursion = None
+                        self.max_favor_excursion = None
+                        
+                        
                         self.exit_price = round(tmp_short_exit_price + (self.min_tick_increment*self.exit_slippage_ticks),4)
                         if tmp_short_exit_type in ['Target', 'Stop', 'Extra']:
                             self.pnl = ((self.entry_price - self.exit_price)/self.min_tick_increment)*self.tick_value*self.lot_size
@@ -405,6 +409,8 @@ class Broker():
                         
                     if exitLongSignal == True:
                         self.position = 0
+                        self.max_adverse_excursion = None
+                        self.max_favor_excursion = None
                         
                         self.exit_price = round(tmp_long_exit_price - (self.min_tick_increment*self.exit_slippage_ticks),4)
                         if tmp_long_exit_type in ['Target', 'Stop', 'Extra']:
