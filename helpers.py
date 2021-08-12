@@ -210,7 +210,7 @@ class Broker():
         
             self.tradeLog.loc[self.trade_id, 'Exit Efficiency'] = abs((self.exit_price - minimum_price_seen)/(movement_range))*100
             
-            self.tradeLog.loc[self.trade_id, 'ETD'] = abs(maximum_price_seen - abs(self.entry_price-self.exit_price))
+            self.tradeLog.loc[self.trade_id, 'ETD'] = abs(self.max_favor_excursion - abs(self.entry_price-self.exit_price))*self.min_tick_increment
             
             if self.trade_type == 1:
             
