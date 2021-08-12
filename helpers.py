@@ -198,7 +198,7 @@ class Broker():
             
             self.tradeLog.loc[self.trade_id, 'MAE'] = 0
             
-        if self.max_favor_excursion is not None or self.max_adverse_excursion is not None:
+        if self.max_favor_excursion is not None and self.max_adverse_excursion is not None:
             
             self.tradeLog.loc[self.trade_id, 'Entry Efficiency'] = abs(self.max_favor_excursion/(self.max_favor_excursion- self.max_adverse_excursion))
         
