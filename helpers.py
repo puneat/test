@@ -188,6 +188,8 @@ class Broker():
             
             self.tradeLog.loc[self.trade_id, 'MFE'] = 0
             
+            self.tradeLog.loc[self.trade_id, 'ETD'] = 0
+            
         if self.max_adverse_excursion is not None:
             
             self.tradeLog.loc[self.trade_id, 'MAE'] = abs(self.max_adverse_excursion / self.min_tick_increment)
