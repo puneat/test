@@ -175,6 +175,14 @@ class Broker():
         if self.max_favor_excursion is not None:
         
             self.tradeLog.loc[self.trade_id, 'MFE'] = abs(self.max_favor_excursion / self.min_tick_increment)
+            
+            if self.trade_type == -1:
+            
+                self.tradeLog.loc[self.trade_id, 'ETD'] = self.max_favor_excursion - (self.entry_price-self.exit_price)
+                
+            elif self.trade_type == 1:
+                
+                self.tradeLog.loc[self.trade_id, 'ETD'] = self.max_favor_excursion - (self.exit_price-self.entry_price)
         
         elif self.max_favor_excursion is None:
             
@@ -187,6 +195,22 @@ class Broker():
         elif self.max_adverse_excursion is None:
             
             self.tradeLog.loc[self.trade_id, 'MAE'] = 0
+            
+        if self.max_favor_excursion is not None or self.max_adverse_excursion is not None:
+            
+            self.tradeLog.loc[self.trade_id, 'Entry Efficiency'] = abs(self.max_favor_excursion/(self.max_favor_excursion- self.max_adverse_excursion))
+        
+            self.tradeLog.loc[self.trade_id, 'Exit Efficiency'] = abs((self.exit_price - (self.max_adverse_excursion + self.entry_price))/(self.max_favor_excursion- self.max_adverse_excursion))
+            
+            self.tradeLog.loc[self.trade_id, 'Trade Efficiency'] = abs((self.exit_price - self.entry_price)/(self.max_favor_excursion- self.max_adverse_excursion))
+
+        elif self.max_favor_excursion is None or self.max_adverse_excursion is None:
+            
+            self.tradeLog.loc[self.trade_id, 'Entry Efficiency'] = 0
+        
+            self.tradeLog.loc[self.trade_id, 'Exit Efficiency'] = 0
+            
+            self.tradeLog.loc[self.trade_id, 'Trade Efficiency'] = 0
         
  
     def testerAlgo(self):
